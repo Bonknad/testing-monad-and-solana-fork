@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capitalism - Onchain Utility</title>
-    <link rel="icon" type="image/x-icon" href="potter.png">
+    <title>ShareBot Documentation</title>
+    <link rel="icon" type="image/x-icon" href="pain.png">
     <style>
         * {
             margin: 0;
@@ -13,562 +13,740 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #fdfcfa 0%, #f8f6f3 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
             color: #1a1a1a;
-            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
         }
 
-        .container {
-            text-align: center;
-            max-width: 1100px;
-            width: 100%;
+        .header {
+            border-bottom: 2px solid #22c55e;
+            padding: 30px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(34, 197, 94, 0.1);
         }
 
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-            color: #000000;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .tagline {
-            font-size: 1.4rem;
-            color: #ff8c42;
-            font-weight: 600;
-            margin-bottom: 3rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-        }
-
-        .circle-container {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 0 auto 3rem;
-        }
-
-        .circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 0 40px rgba(0, 0, 0, 0.3),
-                inset 0 0 60px rgba(255, 255, 255, 0.05);
-            border: 8px solid #000000;
-            position: relative;
-            overflow: hidden;
         }
 
-        .circle::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 0, 0, 0.2) 0%, transparent 70%);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.7;
-            }
-        }
-
-        .fee-amount {
-            font-size: 3.5rem;
+        .logo-small {
+            font-size: 28px;
             font-weight: 700;
-            color: #ffffff;
-            z-index: 1;
-            position: relative;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            letter-spacing: 3px;
+            color: #22c55e;
+            text-decoration: none;
+            text-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
-        }
-
-        .fee-amount.updating {
-            transform: scale(1.05);
-            color: #ffffff;
-        }
-
-        .update-indicator {
-            font-size: 0.9rem;
-            color: #000000;
-            margin-top: 1rem;
             font-weight: 500;
         }
 
-        .x-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #000000;
-            border: 2px solid #000000;
-            border-radius: 12px;
-            padding: 12px 24px;
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        .nav-link:hover {
+            color: #22c55e;
+        }
+
+        .social-link {
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-
-        .x-button:hover {
-            background: #2a2a2a;
-            border-color: #2a2a2a;
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .x-button svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .info-section {
+            justify-content: center;
+            width: 40px;
+            height: 40px;
             background: #ffffff;
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-top: 2rem;
-            border: 2px solid #000000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .info-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: #000000;
+            border: 2px solid #22c55e;
+            border-radius: 8px;
+            color: #22c55e;
+            text-decoration: none;
+            font-size: 18px;
             font-weight: 700;
+            transition: all 0.3s ease;
         }
 
-        .pve-explanation {
-            background: linear-gradient(135deg, #e8f9f1 0%, #d4f4e6 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            border: 2px solid #3ac682;
+        .social-link:hover {
+            background: #22c55e;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+            transform: translateY(-2px);
         }
 
-        .pve-explanation h3 {
-            font-size: 1.5rem;
-            color: #3ac682;
-            margin-bottom: 1rem;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 40px;
+            top: 140px;
+            width: 200px;
+            padding-right: 30px;
+            border-right: 2px solid #e5e7eb;
+        }
+
+        .sidebar-link {
+            display: block;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            color: #22c55e;
+            transform: translateX(5px);
+        }
+
+        .content {
+            margin-left: 270px;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 48px;
             font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .pve-explanation p {
-            font-size: 1.1rem;
+        h2 {
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 80px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #22c55e;
+            color: #1a1a1a;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #2d2d2d;
+        }
+
+        p {
+            color: #4b5563;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 20px;
             line-height: 1.8;
-            color: #2a8a5e;
-            margin-bottom: 1rem;
+        }
+
+        strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .intro {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 60px;
+            line-height: 1.8;
+        }
+
+        code {
+            background: #dcfce7;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        pre {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            padding: 30px;
+            margin: 30px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            border: none;
+            color: #1a1a1a;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            border-color: #22c55e;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.15);
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: #22c55e;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .note {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+        }
+
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #16a34a;
+        }
+
+        .note-content {
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.7;
         }
 
         .highlight {
-            font-weight: 700;
-            color: #3ac682;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 35px;
+            margin: 40px 0;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
         }
 
-        .fee-breakdown {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+        .highlight .note-title {
+            color: #ffffff;
+            font-size: 16px;
         }
 
-        .fee-card {
-            background: linear-gradient(135deg, #e8f9f1 0%, #d4f4e6 100%);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 2px solid #3ac682;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .fee-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(58, 198, 130, 0.25);
-            border-color: #2eb872;
-        }
-
-        .fee-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-            color: #3ac682;
-            font-weight: 700;
-        }
-
-        .fee-card p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #2a8a5e;
-        }
-
-        .percentage {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #3ac682;
-            margin-bottom: 0.5rem;
-        }
-
-        .pve-table-section {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-top: 2rem;
-            border: 2px solid #000000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .pve-table-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: #000000;
-            font-weight: 700;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 1.5rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #000000 0%, #2a2a2a 100%);
+        .highlight .note-content {
             color: #ffffff;
         }
 
-        th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .highlight p {
+            color: #ffffff;
         }
 
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid #e8e8e8;
-            color: #1a1a1a;
-            font-size: 0.95rem;
+        .highlight code {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        tbody tr:hover {
-            background: #f5f5f5;
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
         }
 
-        tbody tr:last-child td {
-            border-bottom: none;
+        li {
+            margin-bottom: 12px;
+            color: #4b5563;
+            font-size: 16px;
+            font-weight: 400;
         }
 
-        .status-badge {
+        .step {
+            padding: 30px;
+            margin: 25px 0;
+            background: #ffffff;
+            border-left: 4px solid #22c55e;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e5e7eb;
+            border-left: 4px solid #22c55e;
+        }
+
+        .step-number {
             display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .status-completed {
-            background: #000000;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: #ffffff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: 700;
+            margin-right: 15px;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
         }
 
-        .status-pending {
-            background: #e8e8e8;
-            color: #000000;
+        /* Glass morphism effect for cards */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        /* Glow effect for important elements */
+        .glow {
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+            }
         }
 
         @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
             h1 {
-                font-size: 2.5rem;
+                font-size: 32px;
             }
 
-            .tagline {
-                font-size: 1.1rem;
+            h2 {
+                font-size: 26px;
             }
 
-            .circle-container {
-                width: 220px;
-                height: 220px;
+            .nav {
+                gap: 15px;
             }
 
-            .fee-amount {
-                font-size: 2.5rem;
+            .nav-link {
+                display: none;
             }
 
-            .info-section, .insurance-table-section {
-                padding: 1.5rem;
+            .social-link {
+                display: flex;
             }
 
-            .x-button {
-                top: 15px;
-                right: 15px;
-                padding: 10px 18px;
-                font-size: 0.9rem;
+            pre {
+                padding: 20px;
+                font-size: 12px;
             }
 
-            .x-button svg {
-                width: 18px;
-                height: 18px;
+            .feature-grid {
+                grid-template-columns: 1fr;
             }
+        }
 
-            table {
-                font-size: 0.85rem;
+        /* Animated gradient background */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
             }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
-            th, td {
-                padding: 0.7rem 0.5rem;
-            }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <a href="https://x.com/Capitalism_Sols" target="_blank" rel="noopener noreferrer" class="x-button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-        </svg>
-        Follow Us
-    </a>
+    <div class="header">
+        <div class="header-content">
+            <a href="#" class="logo-small">SHAREBOT</a>
+            <nav class="nav">
+                <a href="#introduction" class="nav-link">ABOUT</a>
+                <a href="#documentation" class="nav-link">DOCUMENTATION</a>
+                <a href="https://x.com/sharebot" target="_blank" rel="noopener noreferrer" class="social-link" title="Follow us on X">
+                    𝕏
+                </a>
+            </nav>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Capitalism</h1>
-        
-        <div class="circle-container">
-            <div class="circle">
-                <div class="fee-amount" id="feeAmount">$0</div>
-            </div>
-        </div>
-        
-        <div class="update-indicator" id="updateIndicator">
-            Updates every 5 seconds
-        </div>
+        <aside class="sidebar">
+            <a href="#introduction" class="sidebar-link active">Introduction</a>
+            <a href="#how-it-works" class="sidebar-link">How It Works</a>
+            <a href="#features" class="sidebar-link">Features</a>
+            <a href="#security" class="sidebar-link">Security</a>
+            <a href="#documentation" class="sidebar-link">Documentation</a>
+            <a href="#faq" class="sidebar-link">FAQ</a>
+        </aside>
 
-        <div class="info-section">
-            <h2>How It Works</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; color: #1a1a1a;">
-                We airdrop fees relative to how much supply you hold. The top holder receives the most fees, just like in the real world if they had a better job than you.
-            </p>
+        <div class="content">
+            <section id="introduction">
+                <h2>Introduction</h2>
+                
+                <p>
+                    <strong>ShareBot</strong> is a fee distribution service that allows memecoin developers to easily spread collected fees to all token holders proportionally. Simply send your fees along with your contract address, and we'll handle the rest.
+                </p>
+                
+                <p>
+                    This service creates an additional incentive for holders and builds community loyalty by ensuring everyone benefits from the project's success. ShareBot automates the complex process of proportional distribution, making it simple for developers to reward their communities.
+                </p>
 
-            <h2>Developer Fee Distribution</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem; color: #1a1a1a;">
-                The amount displayed above represents our current developer fee pool, which funds both our capitalism program and strategic buyback initiatives. This value updates every 5 seconds in real-time.
-            </p>
-            
-            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem; color: #1a1a1a;">
-                <strong style="color: #000000;">90%</strong> of collected fees are airdropped to top holders, who decide the fate of redistribution.
-            </p>
-            
-            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; color: #1a1a1a;">
-                <strong style="color: #000000;">10%</strong> supports ongoing platform maintenance, capitalism system improvements, and operational infrastructure.
-            </p>
-        </div>
+                <p>
+                    All distributions are transparent, secure, and executed automatically based on current holder snapshots. Join hundreds of memecoin projects already using ShareBot to reward their communities.
+                </p>
 
-        <div class="pve-table-section">
-            <h2>Recent Airdrops to Top Holders</h2>
-            <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; color: #1a1a1a;">
-                Track all airdrops made to top holders in real-time. Every transaction is transparent and instant.
-            </p>
-            
-            <div class="table-container">
-                <table id="capitalismTable">
-                    <thead>
-                        <tr>
-                            <th>Date & Time</th>
-                            <th>Top Holder Address</th>
-                            <th>Airdrop Amount</th>
-                            <th>Tokens Received</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <!-- Table rows will be dynamically generated -->
-                    </tbody>
-                </table>
+                <div class="highlight">
+                    <div class="note-title">🔒 Secure & Automated</div>
+                    <div class="note-content">
+                        Send fees from your dev wallet with your contract address, and we'll automatically distribute proportionally to all holders. Simple, secure, and transparent.
+                    </div>
+                </div>
+
+                <div class="note">
+                    <div class="note-title">Why ShareBot?</div>
+                    <div class="note-content">
+                        ShareBot eliminates the complexity of manual fee distribution. We handle snapshots, calculations, and transactions automatically, allowing you to focus on building your project while keeping your community engaged and rewarded.
+                    </div>
+                </div>
+            </section>
+
+            <section id="how-it-works">
+                <h2>How It Works</h2>
+                
+                <p>
+                    The distribution process is simple and automated. You collect fees from your memecoin project, send them to our distribution wallet along with your contract address, and we handle everything else.
+                </p>
+
+                <h3>The Process</h3>
+                <ul>
+                    <li><strong>Fee Collection:</strong> Accumulate trading fees or revenue in your dev wallet</li>
+                    <li><strong>Transaction Submission:</strong> Send fees to our wallet with your CA in the memo</li>
+                    <li><strong>Wallet Verification:</strong> We verify the transaction comes from the registered dev wallet</li>
+                    <li><strong>Holder Snapshot:</strong> We capture current holder balances at the time of receipt</li>
+                    <li><strong>Proportional Calculation:</strong> Distribution amounts are calculated based on holding percentages</li>
+                    <li><strong>Automatic Distribution:</strong> All holders receive their proportional share automatically</li>
+                </ul>
+
+                <h3>Distribution Formula</h3>
+                <div class="note">
+                    <div class="note-content">
+                        <strong>Each holder receives:</strong><br>
+                        <code>(Holder's Token Balance / Total Token Supply) × Total Fees Sent</code><br><br>
+                        This ensures fair and proportional distribution based on each holder's stake in the token.
+                    </div>
+                </div>
+
+                <h3>Timeline</h3>
+                <ul>
+                    <li>Transaction received and verified: Instant</li>
+                    <li>Holder snapshot captured: 1-2 minutes</li>
+                    <li>Distribution calculations: 2-3 minutes</li>
+                    <li>Fee distribution to holders: 5-15 minutes total</li>
+                </ul>
+            </section>
+
+            <section id="features">
+                <h2>Features</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">Proportional Distribution</div>
+                        <div class="feature-desc">
+                            All holders receive fees proportional to their token holdings, ensuring fairness.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-title">Automated Processing</div>
+                        <div class="feature-desc">
+                            No manual work required—just send the transaction and we handle everything.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-title">Multi-Chain Support</div>
+                        <div class="feature-desc">
+                            Support for ETH, BSC, Solana, Base, and more blockchains.
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-title">Secure Verification</div>
+                        <div class="feature-desc">
+                            Only verified dev wallets can trigger distributions, preventing unauthorized access.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="security">
+                <h2>Security</h2>
+                
+                <p>
+                    Security is our top priority. ShareBot implements multiple layers of protection to ensure only authorized distributions can occur.
+                </p>
+
+                <h3>Dev Wallet Verification</h3>
+                <div class="note">
+                    <div class="note-title">⚠️ Critical Requirement</div>
+                    <div class="note-content">
+                        <strong>All fee distributions MUST originate from the registered dev wallet.</strong> Transactions from any other wallet will be automatically rejected and returned (minus gas fees).
+                    </div>
+                </div>
+
+                <h3>Security Measures</h3>
+                <ul>
+                    <li><strong>Wallet Whitelisting:</strong> Only registered dev wallets can trigger distributions</li>
+                    <li><strong>Transaction Verification:</strong> Every transaction is verified against our database</li>
+                    <li><strong>Automatic Rejection:</strong> Unauthorized transactions are rejected immediately</li>
+                    <li><strong>Audit Trail:</strong> All distributions are logged and can be verified on-chain</li>
+                    <li><strong>No Smart Contract Risk:</strong> We don't require custody of your tokens</li>
+                </ul>
+
+                <h3>Why Dev Wallet Only?</h3>
+                <p>
+                    Restricting distributions to verified dev wallets ensures:
+                </p>
+                <ul>
+                    <li>Only authorized team members can trigger distributions</li>
+                    <li>Prevention of spam or malicious distribution attempts</li>
+                    <li>Accountability and transparency in fee distribution</li>
+                    <li>Protection against unauthorized access</li>
+                </ul>
+            </section>
+
+            <section id="documentation">
+                <h2>Documentation</h2>
+
+                <h3>Registration</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Contact Us to Register</strong>
+                    <p>Provide the following information:</p>
+                    <ul>
+                        <li>Your memecoin's contract address (CA)</li>
+                        <li>Your verified dev wallet address</li>
+                        <li>Project name and basic information</li>
+                        <li>Preferred blockchain network</li>
+                    </ul>
+                </div>
+
+                <h3>Making a Distribution</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Prepare Your Transaction</strong>
+                    <ul>
+                        <li>Ensure you're using your registered dev wallet</li>
+                        <li>Determine the amount you want to distribute</li>
+                        <li>Have your memecoin's contract address ready</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Send the Transaction</strong>
+                    <ul>
+                        <li><strong>Recipient:</strong> <code>[DISTRIBUTION_WALLET_ADDRESS]</code></li>
+                        <li><strong>Memo/Note:</strong> Your contract address (CA)</li>
+                        <li><strong>Amount:</strong> Fees to distribute</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Confirmation</strong>
+                    <ul>
+                        <li>Wait 5-15 minutes for processing</li>
+                        <li>Receive confirmation with transaction details</li>
+                        <li>Verify distribution on blockchain explorer</li>
+                    </ul>
+                </div>
+
+                <h3>Supported Blockchains</h3>
+                <ul>
+                    <li>Ethereum (ETH)</li>
+                    <li>Binance Smart Chain (BSC)</li>
+                    <li>Solana (SOL)</li>
+                    <li>Base</li>
+                    <li>More chains coming soon!</li>
+                </ul>
+
+                <h3>Fees and Timing</h3>
+                <ul>
+                    <li><strong>Service Fee:</strong> 2-5% of distribution to cover gas and operations</li>
+                    <li><strong>Processing Time:</strong> 5-15 minutes depending on network</li>
+                    <li><strong>Minimum Amount:</strong> Varies by blockchain for gas efficiency</li>
+                </ul>
+
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Distribute fees regularly to maintain community engagement</li>
+                    <li>Announce distributions beforehand to build anticipation</li>
+                    <li>Keep records of all distributions for transparency</li>
+                    <li>Only send from your verified dev wallet</li>
+                    <li>Double-check the contract address before sending</li>
+                    <li>Consider gas fees when planning distribution frequency</li>
+                </ul>
+
+                <h3>Contact & Support</h3>
+                <p>For registration, support, or questions:</p>
+                <ul>
+                    <li>Email: <code>support@sharebot.io</code></li>
+                    <li>Telegram: <code>@ShareBotSupport</code></li>
+                    <li>Discord: <code>discord.gg/sharebot</code></li>
+                </ul>
+            </section>
+
+            <section id="faq">
+                <h2>FAQ</h2>
+                
+                <h3>General Questions</h3>
+                
+                <p><strong>Q: What happens if I send from the wrong wallet?</strong></p>
+                <p>A: The transaction will be rejected and funds returned (minus gas fees) to the sender address.</p>
+
+                <p><strong>Q: Can I distribute partial fees?</strong></p>
+                <p>A: Yes, you can send any amount you wish to distribute. You're not required to send all accumulated fees at once.</p>
+
+                <p><strong>Q: How often should I distribute fees?</strong></p>
+                <p>A: This depends on your project's fee accumulation rate and community expectations. Weekly or monthly distributions are common.</p>
+
+                <h3>Technical Questions</h3>
+
+                <p><strong>Q: Do holders need to do anything to receive distributions?</strong></p>
+                <p>A: No, distributions are automatic. Holders simply need to hold your token in their wallet.</p>
+
+                <p><strong>Q: Are there minimum holding requirements?</strong></p>
+                <p>A: All holders receive proportional distributions, but very small amounts may not be sent if they're below the blockchain's dust threshold.</p>
+
+                <p><strong>Q: How do you calculate proportional distribution?</strong></p>
+                <p>A: We use the formula: (Holder's Balance / Total Supply) × Total Fees Sent. This ensures fair distribution based on holding percentage.</p>
+
+                <p><strong>Q: Can I verify the distributions?</strong></p>
+                <p>A: Yes, all distributions are on-chain and can be verified using blockchain explorers.</p>
+            </section>
+
+            <div class="note" style="margin-top: 80px;">
+                <div class="note-title">About ShareBot</div>
+                <div class="note-content">
+                    ShareBot makes fee distribution simple, secure, and automated for memecoin projects. By rewarding holders proportionally, you build stronger communities and create lasting value. Join us in making crypto more rewarding for everyone.
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const STORAGE_KEY = 'capitalism_project_fee_amount';
-        const TABLE_STORAGE_KEY = 'capitalism_project_table';
-        let currentFee = 0.00;
-        const feeElement = document.getElementById('feeAmount');
-        const updateIndicator = document.getElementById('updateIndicator');
-        const tableBody = document.getElementById('tableBody');
-
-        // Sample wallet addresses for demo
-        const sampleWallets = [
-            '7xKv...9mPq',
-            '5tWn...3kLp',
-            '9mBx...7hQr',
-            '3nPw...5jMs',
-            '8kLt...2vNp',
-            '6hRm...4wXs',
-            '4vQn...8yZp',
-            '2wXm...6tLq'
-        ];
-
-        let capitalismData = [];
-
-        // Load saved data
-        function loadSavedData() {
-            const savedFee = localStorage.getItem(STORAGE_KEY);
-            if (savedFee !== null) {
-                currentFee = parseFloat(savedFee);
-            }
-            // If no saved fee, currentFee stays at 0.00
-
-            const savedTable = localStorage.getItem(TABLE_STORAGE_KEY);
-            if (savedTable !== null) {
-                capitalismData = JSON.parse(savedTable);
-            }
-            // If no saved table, capitalismData stays empty []
-        }
-
-        // Save data
-        function saveFee() {
-            localStorage.setItem(STORAGE_KEY, currentFee.toString());
-        }
-
-        function saveTableData() {
-            localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(capitalismData));
-        }
-
-        function formatCurrency(amount) {
-            return `$${amount.toFixed(2)}`;
-        }
-
-        function formatTokenAmount(amount) {
-            return `${amount.toFixed(2)} CAP`;
-        }
-
-        function formatDateTime(date) {
-            const options = { 
-                month: 'short', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit'
-            };
-            return date.toLocaleDateString('en-US', options);
-        }
-
-        function generateRandomIncrement() {
-            return (Math.random() * 0.98 + 0.01);
-        }
-
-        function generateRandomWallet() {
-            return sampleWallets[Math.floor(Math.random() * sampleWallets.length)];
-        }
-
-        function addNewAirdrop() {
-            const newEntry = {
-                date: new Date(),
-                wallet: generateRandomWallet(),
-                lossAmount: (Math.random() * 45 + 5).toFixed(2),
-                supplyAmount: (Math.random() * 900 + 100).toFixed(2),
-                status: 'completed'
-            };
-
-            capitalismData.unshift(newEntry);
-            
-            // Keep only last 15 entries
-            if (capitalismData.length > 15) {
-                capitalismData.pop();
-            }
-
-            saveTableData();
-            renderTable();
-        }
-
-        function renderTable() {
-            tableBody.innerHTML = '';
-            
-            capitalismData.forEach(entry => {
-                const row = document.createElement('tr');
-                const statusClass = entry.status === 'completed' ? 'status-completed' : 'status-pending';
-                const statusText = entry.status === 'completed' ? 'Completed' : 'Pending';
-                
-                row.innerHTML = `
-                    <td>${formatDateTime(new Date(entry.date))}</td>
-                    <td><strong>${entry.wallet}</strong></td>
-                    <td>${formatCurrency(parseFloat(entry.lossAmount))}</td>
-                    <td>${formatTokenAmount(parseFloat(entry.supplyAmount))}</td>
-                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                `;
-                
-                tableBody.appendChild(row);
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.sidebar-link, .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Update active state
+                        document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                        if (this.classList.contains('sidebar-link')) {
+                            this.classList.add('active');
+                        }
+                    }
+                }
             });
-        }
+        });
 
-        function updateFee() {
-            feeElement.classList.add('updating');
-            
-            setTimeout(() => {
-                const increment = generateRandomIncrement();
-                currentFee += increment;
-                feeElement.textContent = formatCurrency(currentFee);
-                saveFee();
-                
-                setTimeout(() => {
-                    feeElement.classList.remove('updating');
-                }, 300);
-            }, 150);
+        // Update active link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
 
-            updateIndicator.textContent = 'Just updated • Next update in 5s';
-            setTimeout(() => {
-                updateIndicator.textContent = 'Updates every 5 seconds';
-            }, 2000);
-        }
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-        // Initialize
-        loadSavedData();
-        feeElement.textContent = formatCurrency(currentFee);
-        renderTable();
-
-        // Update fee every 5 seconds
-        setTimeout(() => {
-            updateFee();
-            setInterval(updateFee, 5000);
-        }, 5000);
-
-        // Add first airdrop after 10 seconds
-        setTimeout(() => {
-            addNewAirdrop();
-        }, 10000);
-
-        // Continue adding entries every 25-35 seconds indefinitely
-        setInterval(() => {
-            addNewAirdrop();
-        }, 30000); // Every 30 seconds (can vary with the random times in the function)
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
